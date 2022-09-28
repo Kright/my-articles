@@ -12,112 +12,72 @@
 
 ## Содержание
 
-Часть 1. Начало<br/><br/>
+Часть 1. Начало
 
 <ol>
-
     <li><a href="https://habrahabr.ru/post/310790/">OpenGL</a></li>
-
     <li><a href="https://habrahabr.ru/post/311198/">Создание окна</a></li>
-
     <li><a href="https://habrahabr.ru/post/311234/">Hello Window</a></li>
-
     <li><a href="https://habrahabr.ru/post/311808/">Hello Triangle</a></li>
-
     <li><a href="https://habrahabr.ru/post/313380/">Shaders</a></li>
-
     <li><a href="https://habrahabr.ru/post/315294/">Текстуры</a></li>
-
     <li><a href="https://habrahabr.ru/post/319144/">Трансформации</a></li>
-
     <li><a href="https://habrahabr.ru/post/324968/">Системы координат</a></li>
-
     <li><a href="https://habrahabr.ru/post/327604/">Камера</a></li>
-
 </ol>
 
-Часть 2. Базовое освещение<br/><br/>
+Часть 2. Базовое освещение
 
 <ol>
-
     <li><a href="https://habrahabr.ru/post/329592/">Цвета</a></li>
-
     <li><a href="https://habrahabr.ru/post/333932/">Основы освещения</a></li>
-
     <li><a href="https://habrahabr.ru/post/336166/">Материалы</a></li>
-
     <li><a href="https://habrahabr.ru/post/337550/">Текстурные карты</a></li>
-
     <li><a href="https://habrahabr.ru/post/337642/">Источники света</a></li>
-
     <li><a href="https://habrahabr.ru/post/338254/">Несколько источников освещения</a></li>
-
 </ol>
 
-Часть 3. Загрузка 3D-моделей<br/><br/>
+Часть 3. Загрузка 3D-моделей
 
 <ol>
-
     <li><a href="https://habrahabr.ru/post/338436/">Библиотека Assimp</a></li>
-
     <li><a href="https://habrahabr.ru/post/338436/">Класс полигональной сетки Mesh</a></li>
-
     <li><a href="https://habrahabr.ru/post/338998/">Класс 3D-модели</a></li>
-
 </ol>
 
-Часть 4. Продвинутые возможности OpenGL <br/><br/>
+Часть 4. Продвинутые возможности OpenGL
 
 <ol>
-
     <li><a href="https://habrahabr.ru/post/342610/">Тест глубины</a></li>
-
     <li><a href="https://habrahabr.ru/post/344238/">Тест трафарета</a></li>
-
     <li><a href="https://habrahabr.ru/post/343096/">Смешивание цветов</a></li>
-
     <li><a href="https://habrahabr.ru/post/346964/">Отсечение граней</a></li>
-
     <li><a href="https://habrahabr.ru/post/347354/">Кадровый буфер</a></li>
-
     <li><a href="https://habrahabr.ru/post/347750/">Кубические карты</a></li>
-
     <li><a href="https://habrahabr.ru/post/350008/">Продвинутая работа с данными</a></li>
-
     <li><a href="https://habrahabr.ru/post/350156/">Продвинутый GLSL</a></li>
-
-<li><a href="https://habrahabr.ru/post/350782/">Геометричечкий шейдер</a></li>
-
-<li><a href="https://habrahabr.ru/post/352962/">Инстансинг</a></li>
-
-<li><a href="https://habrahabr.ru/post/351706/">Сглаживание</a></li>
-
+    <li><a href="https://habrahabr.ru/post/350782/">Геометричечкий шейдер</a></li>
+    <li><a href="https://habrahabr.ru/post/352962/">Инстансинг</a></li>
+    <li><a href="https://habrahabr.ru/post/351706/">Сглаживание</a></li>
 </ol>
 
-Часть 5. Продвинутое освещение <br/><br/>
+Часть 5. Продвинутое освещение
 
 <ol>
-
-<li><a href="https://habrahabr.ru/post/353054/">Продвинутое освещение. Модель Блинна-Фонга.</a></li>
-
-<li><a href="https://habrahabr.ru/post/353632/">Гамма-коррекция</a></li>
-
-<li><a href="https://habrahabr.ru/post/353956/">Карты теней</a></li>
-
-<li><a href="https://habr.com/post/354208/">Всенаправленные карты теней</a></li>
-
-<li><a href="https://habr.com/post/415579/">Normal Mapping</a></li>
-
-<li><a href="https://habr.com/post/416163/">Parallax Mapping</a></li>
-
-<li><a href="https://habr.com/post/420409/">HDR</a></li>
+    <li><a href="https://habrahabr.ru/post/353054/">Продвинутое освещение. Модель Блинна-Фонга.</a></li>
+    <li><a href="https://habrahabr.ru/post/353632/">Гамма-коррекция</a></li>
+    <li><a href="https://habrahabr.ru/post/353956/">Карты теней</a></li>
+    <li><a href="https://habr.com/post/354208/">Всенаправленные карты теней</a></li>
+    <li><a href="https://habr.com/post/415579/">Normal Mapping</a></li>
+    <li><a href="https://habr.com/post/416163/">Parallax Mapping</a></li>
+    <li><a href="https://habr.com/post/420409/">HDR</a></li>
     <li><a href="https://habr.com/post/420375/">Bloom</a></li>
     <li><a href="https://habr.com/post/420565/">Отложенный рендеринг</a></li>
     <li><a href="https://habr.com/post/421385/">SSAO</a></li>
-
 </ol>
 
-Часть 6. PBR <br/><br/>
+Часть 6. PBR
+
 <ol>
     <li><a href="https://habr.com/post/426123/">Теория</a></li>
     <li><a href="https://habr.com/post/424453/">Аналитические источники света</a></li>

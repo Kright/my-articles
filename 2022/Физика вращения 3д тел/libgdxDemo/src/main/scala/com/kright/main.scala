@@ -8,4 +8,5 @@ def runLibgdxDemo(): Unit =
   val config = new Lwjgl3ApplicationConfiguration
   config.setForegroundFPS(60)
   config.setTitle("RotationDemo")
+  config.setWindowedMode(780, 440)
   new Lwjgl3Application(new RotationDemo, config)

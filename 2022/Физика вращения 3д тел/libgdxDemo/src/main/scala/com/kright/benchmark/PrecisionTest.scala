@@ -16,9 +16,19 @@ def runPrecisionTest(): Unit =
   val csvDir = new File("../csv")
   csvDir.mkdirs()
 
+  val solvers = List(
+    SolverEulerNaive(),
+    SolverEuler2(),
+    SolverEuler2Alt(),
+    SolverRK2(),
+    SolverRK2Alt(),
+    SolverRK4(),
+    SolverRK4Alt()
+  )
+
   val totalTime = 100
   for(
-    solver <- List(SolverEulerNaive(), SolverEuler2(), SolverRK2(), SolverRK4());
+    solver <- solvers;
     stepDt <- List(1.0, 0.1, 0.01, 0.001)
   ) {
     val solverName = solver.getClass.getSimpleName

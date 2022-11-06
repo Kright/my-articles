@@ -12,12 +12,17 @@ class ErrorsLog(val body: Inertia3d, initialEnergy: Double, initialL: IVector3d)
 
   private val errorsERelative = new ArrayBuffer[Double]()
   private val errorsLRelative = new ArrayBuffer[Double]()
-
+  
   def update(state: State3d): Unit =
-    val e = body.getEnergy(state)
+    update(body.getEnergy(state), body.getL(state))
+
+  def update(e: Double, l: IVector3d): Unit =
     errorsERelative += (e - initialEnergy) / initialEnergy
-    val l = body.getL(state)
     errorsLRelative += l.distance(initialL) / initialL.mag
+  
+  def update(energy: Double, magL: Double): Unit =
+    errorsERelative += (energy - initialEnergy) / initialEnergy
+    errorsLRelative += math.abs(initialL.mag - magL) / initialL.mag  
 
   override def toString: String =
     val eMax = errorsERelative.max

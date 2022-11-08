@@ -75,7 +75,7 @@ trait SolverAlt extends Solver:
     val q = state.transform.rotation
     val I = inertia.getGlobalI(q)
     val e = I.inverted() * (-w.cross(I * w))
-    val dq = 0.5 * Quaternion(0.0, w.x, w.y, w.z) 
+    val dq = 0.5 * Quaternion(0.0, w.x, w.y, w.z) * q
     State3d(
       Transform3d(state.velocity.linear, dq),
       Velocity3d(force.linear / inertia.mass, e)

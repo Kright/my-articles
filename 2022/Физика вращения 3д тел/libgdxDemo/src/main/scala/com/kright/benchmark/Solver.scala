@@ -1,6 +1,5 @@
 package com.kright.benchmark
 
-import com.kright.QuaternionExt.*
 import com.kright.math.{DifferentialSolvers, IQuaternion, Quaternion}
 import com.kright.physics3d.*
 
@@ -76,7 +75,7 @@ trait SolverAlt extends Solver:
     val q = state.transform.rotation
     val I = inertia.getGlobalI(q)
     val e = I.inverted() * (-w.cross(I * w))
-    val dq = Quaternion(0.0, w.x, w.y, w.z) * q * 0.5
+    val dq = 0.5 * Quaternion(0.0, w.x, w.y, w.z) 
     State3d(
       Transform3d(state.velocity.linear, dq),
       Velocity3d(force.linear / inertia.mass, e)

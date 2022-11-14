@@ -10,5 +10,5 @@ lazy val root = (project in file("."))
     libraryDependencies += "com.badlogicgames.gdx" % "gdx" % "1.11.0",
     libraryDependencies += "com.badlogicgames.gdx" % "gdx-backend-lwjgl3" % "1.11.0",
     libraryDependencies += "com.badlogicgames.gdx" % "gdx-platform" % "1.11.0" classifier "natives-desktop",
-    libraryDependencies += "com.github.Kright" % "ScalaGameMath" % "0.2.3",
+    libraryDependencies += "com.github.Kright" % "ScalaGameMath" % "0.2.6",
   )

@@ -25,9 +25,13 @@ class WingNut:
     }
 
   private def doStep(dt: Double): Unit =
-    state := DifferentialSolvers.rungeKutta4(state, time = 0.0, dt,
-      getDerivative = (state, time) => body.getDerivative(state, Force3d()),
-      nextState = (state, derivative, dt) => state.updated(derivative, dt),
-      newZeroDerivative = () => new State3dDerivative(),
-      madd = (acc, d, m) => acc.madd(d, m)
+    val (k1, k2, k3, k4) = DifferentialSolvers.rungeKutta4K(state, time = 0.0, dt,
+      getDerivative = (state, time) => State3dDerivative(state, body, Force3d()),
+      nextState = (state, derivative, dt) => state.copy().madd(derivative, dt).normalize(),
     )
+    state
+      .madd(k1, dt * (1.0 / 6.0))
+      .madd(k2, dt * (2.0 / 6.0))
+      .madd(k3, dt * (2.0 / 6.0))
+      .madd(k4, dt * (1.0 / 6.0))
+      .normalize()

@@ -1,6 +1,6 @@
 package com.kright.benchmark
 
-import com.kright.math.{DifferentialSolvers, IQuaternion, Quaternion}
+import com.kright.math.{DifferentialSolvers, IQuaternion, Quaternion, Vector3d}
 import com.kright.physics3d.*
 
 trait Solver:
@@ -27,7 +27,7 @@ class SolverEuler2Alt extends SolverAlt:
       getDerivative(inertia, force),
       nextState,
       newZeroDerivative,
-      madd
+      madd = (state, add, weight) => state.madd(add, weight)
     )
     result.transform.rotation.normalize()
     result
@@ -59,42 +59,35 @@ class SolverRK4 extends Solver:
 
 class SolverRK4Alt extends SolverAlt:
   override def getNextState(inertia: Inertia3d, initial: State3d, force: Force3d, dt: Double): State3d =
-    val result = DifferentialSolvers.rungeKutta4[State3d, State3d](initial, 0.0, dt,
+    val (k1, k2, k3, k4) = DifferentialSolvers.rungeKutta4K[State3d, State3d](initial, 0.0, dt,
       getDerivative(inertia, force),
       nextState,
-      newZeroDerivative,
-      madd
     )
-    result.transform.rotation.normalize()
-    result
+    initial.copy()
+      .madd(k1, dt * (1.0 / 6.0))
+      .madd(k2, dt * (2.0 / 6.0))
+      .madd(k3, dt * (2.0 / 6.0))
+      .madd(k4, dt * (1.0 / 6.0))
+      .normalize()
 
 
 trait SolverAlt extends Solver:
+  /**
+   * equal code:
+   *
+   * val w = state.velocity.angular
+   * val q = state.transform.rotation
+   * val I = inertia.getGlobalI(q)
+   * val e = I.inverted() * (-w.cross(I * w))
+   * val dq = 0.5 * Quaternion(0.0, w.x, w.y, w.z) * q
+   * State3d(Transform3d(state.velocity.linear, dq), Velocity3d(force.linear / inertia.mass, e))
+   *
+   */
   protected def getDerivative(inertia: Inertia3d, force: Force3d)(state: State3d, t: Double): State3d =
-    val w = state.velocity.angular
-    val q = state.transform.rotation
-    val I = inertia.getGlobalI(q)
-    val e = I.inverted() * (-w.cross(I * w))
-    val dq = 0.5 * Quaternion(0.0, w.x, w.y, w.z) * q
-    State3d(
-      Transform3d(state.velocity.linear, dq),
-      Velocity3d(force.linear / inertia.mass, e)
-    )
+    State3dDerivative(state, inertia, force)
 
   protected def nextState(state: State3d, derivative: State3d, dt: Double): State3d =
-    val nextState = copy(state)
-    madd(nextState, derivative, dt)
-    nextState.transform.rotation.normalize()
-    nextState
-
-  protected def copy(state: State3d): State3d =
-    State3d(state.transform.copy(), state.velocity.copy())
-
-  protected def madd(state: State3d, add: State3d, weight: Double): State3d =
-    state.transform.position.madd(add.transform.position, weight)
-    state.transform.rotation := state.transform.rotation + add.transform.rotation * weight
-    state.velocity.madd(add.velocity, weight)
-    state
+    state.copy().madd(derivative, dt).normalize()
 
   protected def newZeroDerivative(): State3d =
     val result = State3d()

@@ -20,6 +20,7 @@ def runPrecisionTest(): Unit =
     SolverEulerNaive(),
     SolverEuler2(),
     SolverEuler2Alt(),
+    SolverEuler2AltIterative(4),
     SolverRK2(),
     SolverRK2Alt(),
     SolverRK4(),

@@ -32,6 +32,20 @@ class SolverEuler2Alt extends SolverAlt:
     result.transform.rotation.normalize()
     result
 
+class SolverEuler2AltIterative(val iterationsCount: Int) extends SolverAlt:
+  override def getNextState(inertia: Inertia3d, initial: State3d, force: Force3d, dt: Double): State3d =
+    val initialDerivative = getDerivative(inertia, force)(initial, 0.0)
+    var nextPoint: State3d = nextState(initial, initialDerivative, dt)
+
+    for(_ <- 0 until iterationsCount) {
+      val nextDerivative = getDerivative(inertia, force)(nextPoint, 0.0)
+      val middleDerivative = newZeroDerivative().madd(initialDerivative, 0.5).madd(nextDerivative, 0.5)
+      nextPoint = nextState(initial, middleDerivative, dt)
+    }
+
+    nextPoint.transform.rotation.normalize()
+    nextPoint
+
 class SolverRK2 extends Solver:
   def getNextState(inertia: Inertia3d, initial: State3d, force: Force3d, dt: Double): State3d =
     DifferentialSolvers.rungeKutta2(initial, 0.0, dt,

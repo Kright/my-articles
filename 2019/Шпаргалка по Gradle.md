@@ -71,7 +71,7 @@ logger.warn('A warning log message.')
 ```
 логгер является имплементацией SLF4J.
 
-##Groovy
+## Groovy
 
 Происходящее в ```build.gradle``` файликах - просто код на groovy.
 

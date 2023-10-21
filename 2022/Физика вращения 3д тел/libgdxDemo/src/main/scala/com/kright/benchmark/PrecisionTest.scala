@@ -1,11 +1,10 @@
 package com.kright.benchmark
 
-import com.kright.math.{IVector3d, Vector3d}
+import com.kright.math.Vector3d
 import com.kright.physics3d.{Force3d, Inertia3d, State3d}
 
 import java.io.File
 import java.nio.file.Paths
-import scala.collection.mutable.ArrayBuffer
 
 @main
 def runPrecisionTest(): Unit =

@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType
 import com.badlogic.gdx.graphics.{GL20, PerspectiveCamera}
 import com.badlogic.gdx.{ApplicationAdapter, Gdx}
-import com.kright.math.{Vector3d}
+import com.github.kright.math.Vector3d
 
 import scala.language.implicitConversions
 import scala.util.chaining.*

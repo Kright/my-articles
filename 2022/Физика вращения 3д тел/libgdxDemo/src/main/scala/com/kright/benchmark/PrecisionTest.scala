@@ -1,7 +1,7 @@
 package com.kright.benchmark
 
-import com.kright.math.Vector3d
-import com.kright.physics3d.{Force3d, Inertia3d, State3d}
+import com.github.kright.math.Vector3d
+import com.github.kright.physics3d.{Force3d, Inertia3d, State3d}
 
 import java.io.File
 import java.nio.file.Paths

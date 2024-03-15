@@ -1,8 +1,8 @@
 package com.kright
 
 import com.badlogic.gdx.math.Matrix4
-import com.kright.math.{DifferentialSolvers, IVector3d, Matrix4d, Vector3d}
-import com.kright.physics3d.*
+import com.github.kright.math.{DifferentialSolvers, IVector3d, Matrix4d, Vector3d}
+import com.github.kright.physics3d.*
 
 class WingNut:
   val body: Inertia3d = new Inertia3d(1.0, Vector3d(3.0, 2.0, 1.0))

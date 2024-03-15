@@ -1,6 +1,6 @@
 package com.kright
 
-import com.kright.math.Vector2d
+import com.github.kright.math.Vector2d
 import org.jfree.chart.{ChartFactory, ChartFrame}
 import org.jfree.chart.plot.PlotOrientation
 import org.jfree.data.xy.DefaultXYDataset

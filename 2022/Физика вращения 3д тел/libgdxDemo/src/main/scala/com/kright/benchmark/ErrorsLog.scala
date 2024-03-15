@@ -1,7 +1,7 @@
 package com.kright.benchmark
 
-import com.kright.math.IVector3d
-import com.kright.physics3d.{Inertia3d, State3d}
+import com.github.kright.math.*
+import com.github.kright.physics3d.*
 
 import java.nio.charset.StandardCharsets
 import java.nio.file.{Files, Path}

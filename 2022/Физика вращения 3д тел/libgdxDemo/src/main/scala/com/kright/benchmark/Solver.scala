@@ -1,7 +1,7 @@
 package com.kright.benchmark
 
-import com.kright.math.{DifferentialSolvers, IQuaternion, Quaternion, Vector3d}
-import com.kright.physics3d.*
+import com.github.kright.math.{DifferentialSolvers, IQuaternion, Quaternion, Vector3d}
+import com.github.kright.physics3d.*
 
 trait Solver:
   def getNextState(inertia: Inertia3d, initial: State3d, force: Force3d, dt: Double): State3d

@@ -3,10 +3,10 @@ package com.kright
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.math.{Matrix4, Vector3}
-import com.kright.math.{IVector3d, Matrix4d, Quaternion, Vector3d}
+import com.github.kright.math.{IVector3d, Matrix4d, Quaternion, Vector3d}
 
 extension (matrix: Matrix4)
-  def :=(m: com.kright.math.Matrix4d): Matrix4 =
+  def :=(m: com.github.kright.math.Matrix4d): Matrix4 =
     for (i <- matrix.`val`.indices) {
       matrix.`val`(i) = m.elements(i).toFloat
     }

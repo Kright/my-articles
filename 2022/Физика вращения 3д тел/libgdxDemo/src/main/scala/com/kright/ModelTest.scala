@@ -1,7 +1,7 @@
 package com.kright
 
-import com.kright.math.{IVector3d, Vector3d}
-import com.kright.physics3d.{Transform3d, *}
+import com.github.kright.math.{IVector3d, Vector3d}
+import com.github.kright.physics3d.*
 
 import scala.collection.mutable.ArrayBuffer
 import scala.util.chaining.*

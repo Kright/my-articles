@@ -9,8 +9,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.{ApplicationAdapter, Gdx, Input}
-import com.kright.math.{IQuaternion, IVector3d, Matrix4d, Quaternion, Vector3d}
-import com.kright.physics3d.*
+import com.github.kright.math.*
+import com.github.kright.physics3d.*
 
 import scala.language.{existentials, implicitConversions}
 import scala.util.chaining.*

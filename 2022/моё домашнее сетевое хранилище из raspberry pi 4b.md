@@ -77,7 +77,7 @@ sudo apt install avahi-daemon
 
 По-дефолту работать не будет, надо поправить настройки и перезапустить сервис:
 ```
-nano apt install avahi-daemon
+nano /etc/avahi/avahi-daemon.conf
 sudo systemctl restart avahi-daemon.service
 ```
 

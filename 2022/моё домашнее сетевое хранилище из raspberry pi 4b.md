@@ -65,6 +65,28 @@ sudo blkid
 
 Скорость копирования по проводу через sshfs получилась 44-47 мегабайт в секунду. Почти полгигабита! У меня есть подозрение, что сеть на малинке быстрее, а это тормозит жёсткий диск или роутер, но пруфов не будет.
 
+### Красивое имя в локальной сети: pi.local
+
+Существует специальная [доменная зона .local](https://en.wikipedia.org/wiki/.local).
+
+Можно поставить сервис, который будет окружающим устройствам в локальной сети сообщать об "имени" малинки.
+
+```
+sudo apt install avahi-daemon
+```
+
+По-дефолту работать не будет, надо поправить настройки и перезапустить сервис:
+```
+nano apt install avahi-daemon
+sudo systemctl restart avahi-daemon.service
+```
+
+Из настроек нас интересуют
+```
+host-name=pi
+domain-name=local
+```
+
 ### Автозапуск бота и торрентов
 
 Ниже будет упрощённый пересказ того, что я узнал по этой ссылке: [https://obu4alka.ru/ustanovka-qbittorrent-na-ubuntu-server-20-04-lts.html](https://obu4alka.ru/ustanovka-qbittorrent-na-ubuntu-server-20-04-lts.html) Ещё можно посмотреть тут: [https://www.shubhamdipt.com/blog/how-to-create-a-systemd-service-in-linux/](https://www.shubhamdipt.com/blog/how-to-create-a-systemd-service-in-linux/)

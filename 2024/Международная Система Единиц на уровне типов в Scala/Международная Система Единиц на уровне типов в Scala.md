@@ -80,10 +80,11 @@ object SI:
 
 Теперь добавим умножение. При умножении степени, как известно, складываются, при делении вычитаются.
 
-```
+```Scala
+import scala.compiletime.ops.int.*
+
 object SI:
   ...
-  import scala.compiletime.ops.int.*
 
   extension [M <: Int, KG <: Int, S <: Int](v: Value[M, KG, S])
     def *[M2 <: Int, KG2 <: Int, S2 <: Int](v2: Value[M2, KG2, S2]): Value[M + M2, KG + KG2, S + S2] = v * v2
@@ -96,7 +97,7 @@ M, KG и т.п. - всё целые числа, и мы из compiletime для 
 В некоторых языках можно сделать числа Чёрча типа `Zero, Next[Zero], Next[Next[Zero]]` и потом развлекаться с ними, но к счастью у нас всё удобно и параметром дженерика может быть обычный Int.
 
 Сделаем операцию возведения в целую степень
-```
+```Scala
 import scala.compiletime.constValue
 
 object SI:
@@ -110,7 +111,7 @@ object SI:
 Функция inline, чтобы было доступно constValue[T] - для каждого вызова оно может быть своё.
 
 Теперь кубические метры можно записать так:
-```
+```Scala
 val cubeMeters = 1.0.m.pow[3]
 ```
 

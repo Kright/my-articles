@@ -10,7 +10,7 @@
 
 2. [thebasemesh.com](https://www.thebasemesh.com/model-library) - меши без текстур
 
-3. [https://www.blenderkit.com/asset-gallery?query=category_subtree:furniture+order:-created] - много моделей, но бОльшая часть платная. Есть бесплатный плагин для блендера, и в плагине есть материалы. На сайте я почему-то их не нашёл. Мне показалось удобным - прямо в окошке плагина написать запрос (например, metal), выбрать среди вариантов и материал применится к активной модельке
+3. [blenderkit.com](https://www.blenderkit.com/asset-gallery?query=category_subtree:furniture+order:-created) - много моделей, но бОльшая часть платная. Есть бесплатный плагин для блендера, и в плагине есть материалы. На сайте я почему-то их не нашёл. Мне показалось удобным - прямо в окошке плагина написать запрос (например, metal), выбрать среди вариантов и материал применится к активной модельке
 
 4. [polyhaven.com][https://polyhaven.com/all] - [модели](https://polyhaven.com/models), [текстуры](https://polyhaven.com/textures), [HDRI](https://polyhaven.com/hdris), всё можно бесплатно качать с сайта, но плагин для блендера платный
 

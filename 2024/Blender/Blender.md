@@ -6,10 +6,12 @@
 
 ### Бесплатные ассеты
 
-1. **ambientcg.com** - [HDRI](https://ambientcg.com/list?type=HDRI), [материалы](https://ambientcg.com/list?category=&date=&createdUsing=&basedOn=&q=&method=&type=Material&sort=Latest) (камень, брусчатка, металл, чепепица, листва)
+1. ambientcg.com - [HDRI](https://ambientcg.com/list?type=HDRI), [материалы](https://ambientcg.com/list?category=&date=&createdUsing=&basedOn=&q=&method=&type=Material&sort=Latest) (камень, брусчатка, металл, чепепица, листва)
 
 2. [thebasemesh.com](https://www.thebasemesh.com/model-library) - меши без текстур
 
-3. [https://www.blenderkit.com/asset-gallery?query=category_subtree:furniture+order:-created] - много ассетов, но бОльшая часть платная. Есть бесплатный плагин для блендера, и в плагине есть материалы. На сайте я почему-то их не нашёл. Мне показалось удобным - прямо в окошке плагина написать запрос (например, metal), выбрать среди вариантов и материал применится к активной модельке
+3. [https://www.blenderkit.com/asset-gallery?query=category_subtree:furniture+order:-created] - много моделей, но бОльшая часть платная. Есть бесплатный плагин для блендера, и в плагине есть материалы. На сайте я почему-то их не нашёл. Мне показалось удобным - прямо в окошке плагина написать запрос (например, metal), выбрать среди вариантов и материал применится к активной модельке
 
-4. [CharMorph](https://github.com/Upliner/CharMorph) - плагин для генерации человечков. Можно покрутить пропорции фигуры и сгенерировать модель с хорошей детализацией с удобным скелетом. Для рук и ног используется IK, т.е. двигаем точку опоры или ладонь куда надо, конечности сами согнутся, чтобы принять нужное положение.
+4. [polyhaven.com][https://polyhaven.com/all] - [модели](https://polyhaven.com/models), [текстуры](https://polyhaven.com/textures), [HDRI](https://polyhaven.com/hdris), всё можно бесплатно качать с сайта, но плагин для блендера платный
+
+5. [CharMorph](https://github.com/Upliner/CharMorph) - плагин для генерации человечков. Можно покрутить пропорции фигуры и сгенерировать модель с хорошей детализацией с удобным скелетом. Для рук и ног используется инверсная кинематика, т.е. двигаем точку опоры или ладонь куда надо, конечности сами согнутся, чтобы принять нужное положение.

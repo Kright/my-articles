@@ -12,6 +12,6 @@
 
 3. [blenderkit.com](https://www.blenderkit.com/asset-gallery?query=category_subtree:furniture+order:-created) - много моделей, но бОльшая часть платная. Есть бесплатный плагин для блендера, и в плагине есть материалы. На сайте я почему-то их не нашёл. Мне показалось удобным - прямо в окошке плагина написать запрос (например, metal), выбрать среди вариантов и материал применится к активной модельке
 
-4. [polyhaven.com][https://polyhaven.com/all] - [модели](https://polyhaven.com/models), [текстуры](https://polyhaven.com/textures), [HDRI](https://polyhaven.com/hdris), всё можно бесплатно качать с сайта, но плагин для блендера платный
+4. [polyhaven.com](https://polyhaven.com/all) - [модели](https://polyhaven.com/models), [текстуры](https://polyhaven.com/textures), [HDRI](https://polyhaven.com/hdris), всё можно бесплатно качать с сайта, но плагин для блендера платный
 
 5. [CharMorph](https://github.com/Upliner/CharMorph) - плагин для генерации человечков. Можно покрутить пропорции фигуры и сгенерировать модель с хорошей детализацией с удобным скелетом. Для рук и ног используется инверсная кинематика, т.е. двигаем точку опоры или ладонь куда надо, конечности сами согнутся, чтобы принять нужное положение.

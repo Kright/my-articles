@@ -57,4 +57,4 @@ public value class ValuePoint {
 
 Дата моего эксперимента - 2024-12-28, Build 23-valhalla+1-90 (2024/7/26)
 
-
+P.S. Я сделал нормальный тест с JMH, сильного влияния на производительность не заметил. [Проект с кодом тут](https://github.com/Kright/mySmallProjects/tree/master/2024/wellcome2valhalla)

@@ -7,6 +7,7 @@ date: 2022-01-24
 Не уверен, что мой способ оптимальный по надёжности или расходам, но для истории запишу его здесь, включая особенности и подводные камни.
 
 P.S. Время от времени пробую сделать с малинкой что-нибудь новое и дополняю статью.
+P.P.S. В январе 2025 года я купил пятую малинку, про неё тоже буду писать здесь.
 
 ### Установка ОС
 
@@ -70,6 +71,8 @@ sudo blkid
 Существует специальная [доменная зона .local](https://en.wikipedia.org/wiki/.local).
 
 Можно поставить сервис, который будет окружающим устройствам в локальной сети сообщать об "имени" малинки.
+
+Наверно, самый простой способ это сделать, это в расширенных настройках raspberry pi imager задать его операционной системе в момент установке. Если пропустили, можно исправить так:
 
 ```
 sudo apt install avahi-daemon
@@ -493,7 +496,36 @@ argon2id      4 iterations, 335222 memory, 4 parallel threads (CPUs) for 256-bit
     serpent-xts        512b        44.9 MiB/s        44.7 MiB/s
     twofish-xts        512b        70.5 MiB/s        70.6 MiB/s
 ```
-И померять aes-adiantum, который должен быть быстрее
+
+и то же самое на пятой малинке (похоже, что поддержка aes появилась):
+```
+cryptsetup benchmark
+# Tests are approximate using memory only (no storage IO).
+PBKDF2-sha1       654541 iterations per second for 256-bit key
+PBKDF2-sha256    1220693 iterations per second for 256-bit key
+PBKDF2-sha512     458293 iterations per second for 256-bit key
+PBKDF2-ripemd160  397790 iterations per second for 256-bit key
+PBKDF2-whirlpool  139884 iterations per second for 256-bit key
+argon2i       4 iterations, 584872 memory, 4 parallel threads (CPUs) for 256-bit key (requested 2000 ms time)
+argon2id      4 iterations, 587760 memory, 4 parallel threads (CPUs) for 256-bit key (requested 2000 ms time)
+#     Algorithm |       Key |      Encryption |      Decryption
+        aes-cbc        128b      1130.0 MiB/s      2060.3 MiB/s
+    serpent-cbc        128b               N/A               N/A
+    twofish-cbc        128b       121.3 MiB/s       128.5 MiB/s
+        aes-cbc        256b       907.5 MiB/s      1689.2 MiB/s
+    serpent-cbc        256b               N/A               N/A
+    twofish-cbc        256b       122.5 MiB/s       128.5 MiB/s
+        aes-xts        256b      1644.9 MiB/s      1646.3 MiB/s
+    serpent-xts        256b               N/A               N/A
+    twofish-xts        256b       125.3 MiB/s       129.7 MiB/s
+        aes-xts        512b      1428.7 MiB/s      1430.4 MiB/s
+    serpent-xts        512b               N/A               N/A
+    twofish-xts        512b       127.0 MiB/s       129.6 MiB/s
+
+```
+
+
+И померять aes-adiantum, который должен быть быстрее, малина 4:
 ```
 cryptsetup benchmark -c xchacha12,aes-adiantum
 # Tests are approximate using memory only (no storage IO).
@@ -506,6 +538,16 @@ cryptsetup benchmark -c xchacha20,aes-adiantum
 #            Algorithm |       Key |      Encryption |      Decryption
 xchacha20,aes-adiantum        256b       161.0 MiB/s       162.2 MiB/s
 ```
+
+малина 5 в два с лишним раза быстрее:
+```
+cryptsetup benchmark -c xchacha20,aes-adiantum
+# Tests are approximate using memory only (no storage IO).
+#            Algorithm |       Key |      Encryption |      Decryption
+xchacha20,aes-adiantum        256b       378.8 MiB/s       401.1 MiB/s
+```
+
+
 Ссылки, которыми я руководствовался:
 
 [https://gist.github.com/palopezv/792b9f0100484186c3f74cbee7b07630](https://gist.github.com/palopezv/792b9f0100484186c3f74cbee7b07630)
@@ -582,7 +624,7 @@ sudo btrfs subvolume get-default /mnt/disk
 Ещё момент: если создавать снапшот как папку внутри диска с данными, то следующий снапшот будет содержать ещё и предыдущую папку со снапшотом (но правда пустую).
 Ещё btrfs поддерживает создание снапшотов на btrfs на другом диске (и даже на сервере), но я не пробовал.
 
-## Raspberry pi 5
+# Raspberry pi 5
 
 Вышла пятая версия, добавлю информацию сюда же.
 
@@ -593,6 +635,25 @@ sudo btrfs subvolume get-default /mnt/disk
 * более новое видеоядро и оно по ощущениям тоже раза в 2-3 быстрее.
 
 Последнее меня особо порадовало. По-умолчанию в raspbian в firefox стоит плагин, который просит у ютуба видео с кодеком 264 вместо VP9 и среди опций выше 1080р ничего нет. Но я ради интереса отключил этот плагин, позапускал 1440р и 4к - и оно всё работает! На глаз кажется что не идеально плавно, но это сильно круче чем было у четвёртой малинки. Насколько помню, там даже на 1080р были проблемы.
+
+### Корпус Argon NEO 5 NVME и SSD
+
+Для охлаждения я купил корпус с вентилятором, который вдобавок позволяет поставить M.2 любого размера. Из минусов - процесс сборки довольно замороченный и разбирать-собирать малинку придётся несколько раз. Например, для того чтобы вытащить карточку памяти.
+
+Вентилятор на корпусе крохотный и вообще не слышный. Ещё что интересно - он зачастую вообще останавливается и температура малинки при этом небольшая.
+
+Кроме того, я умудрился подключить шину pcie не той стороной (контакты на креплении должны быть со стороны неподвижной штуки) и долго пытался понять, почему же не видно диск.
+
+Я выбрал диск Kingston, потому что где-то нашёл инфу что они у них в пике потребляют меньше пяти ватт, в отличие от самсунгов (там вроде до 7.9 ватт).
+
+Для включения pcie gen3 надо добавить следующую строчку в boot/firmware/config.txt, у меня всё заработало без проблем.
+
+```
+dtparam=pciex1_gen=3
+```
+
+Если загрузиться с карточки памяти и иметь подключенный ssd, то можно прям на него поставить систему из rapsberry pi imager.
+
 
 ## Выводы
 

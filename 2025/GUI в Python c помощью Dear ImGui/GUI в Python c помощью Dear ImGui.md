@@ -139,5 +139,9 @@ with imgui.begin_child("Right panel", width=w // 2, border=True):
 
 В геймдеве часто используют всякие нестандартные, но при этом интересные решения, imgui одна из них.
 
+Полезные ссылки:
+* [Dear imgui](https://github.com/ocornut/imgui)
+* [документация к pyimgui](https://pyimgui.readthedocs.io/en/latest/guide/first-steps.html#using-pyimgui)
+* [список обёрток для использования из разных языков](https://github.com/ocornut/imgui/wiki/Bindings)
 
 

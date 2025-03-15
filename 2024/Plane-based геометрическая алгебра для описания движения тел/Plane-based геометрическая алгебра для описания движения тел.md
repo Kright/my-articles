@@ -844,3 +844,5 @@ wikipedia: [geometric algebra](https://en.wikipedia.org/wiki/Geometric_algebra),
 arxiv: [Projective geometric algebra: A new framework for doing euclidean geometry](https://arxiv.org/abs/1901.05873) - довольно высокроуровневый взгляд на происходящее, хорошо написано про дуальность.
 
 habr: [О спинорах человеческим языком](https://habr.com/ru/articles/732926/) - статья для расширения кругозора о том, что ещё можно делать в геометрической алгебре.
+
+arxiv: [Fast matrix representation for Clifford algebras](https://arxiv.org/abs/2410.06103v1) Кажется, это можно применить, но я пока не придумал как.

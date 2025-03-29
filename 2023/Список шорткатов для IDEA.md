@@ -1,5 +1,5 @@
 ---
-Title: "Список шорткатов для IDEA"
+title: "Список шорткатов для IDEA"
 author: Kright
 date: 2023-10-08
 ---

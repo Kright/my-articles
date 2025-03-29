@@ -1,5 +1,5 @@
 ---
-Title: "Моё домашнее сетевое хранилище из raspberry pi 4b"
+title: "Моё домашнее сетевое хранилище из Raspberry Pi 4b"
 author: Kright
 date: 2022-01-24
 ---

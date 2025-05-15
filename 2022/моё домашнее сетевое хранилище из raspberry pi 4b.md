@@ -530,6 +530,62 @@ argon2id      4 iterations, 587760 memory, 4 parallel threads (CPUs) for 256-bit
 
 ```
 
+И для сравнения покажу замеры на PC:
+
+Ryzen 3700X:
+```
+cryptsetup benchmark
+# Tests are approximate using memory only (no storage IO).
+PBKDF2-sha1      1777247 iterations per second for 256-bit key
+PBKDF2-sha256    3139449 iterations per second for 256-bit key
+PBKDF2-sha512    1504413 iterations per second for 256-bit key
+PBKDF2-ripemd160  799219 iterations per second for 256-bit key
+PBKDF2-whirlpool  691672 iterations per second for 256-bit key
+argon2i      10 iterations, 1048576 memory, 4 parallel threads (CPUs) for 256-bit key (requested 2000 ms time)
+argon2id     10 iterations, 1048576 memory, 4 parallel threads (CPUs) for 256-bit key (requested 2000 ms time)
+#     Algorithm |       Key |      Encryption |      Decryption
+        aes-cbc        128b      1123.3 MiB/s      2272.1 MiB/s
+    serpent-cbc        128b       114.2 MiB/s       675.5 MiB/s
+    twofish-cbc        128b       225.0 MiB/s       400.9 MiB/s
+        aes-cbc        256b       890.4 MiB/s      2118.8 MiB/s
+    serpent-cbc        256b       118.6 MiB/s       674.0 MiB/s
+    twofish-cbc        256b       231.4 MiB/s       401.2 MiB/s
+        aes-xts        256b      2059.3 MiB/s      2081.0 MiB/s
+    serpent-xts        256b       588.6 MiB/s       586.7 MiB/s
+    twofish-xts        256b       367.6 MiB/s       369.8 MiB/s
+        aes-xts        512b      1969.8 MiB/s      1970.6 MiB/s
+    serpent-xts        512b       595.5 MiB/s       587.2 MiB/s
+    twofish-xts        512b       370.9 MiB/s       369.7 MiB/s
+```
+
+Ryzen 5950:
+```
+cryptsetup benchmark
+# Tests are approximate using memory only (no storage IO).
+PBKDF2-sha1      2752167 iterations per second for 256-bit key
+PBKDF2-sha256    5256020 iterations per second for 256-bit key
+PBKDF2-sha512    2153133 iterations per second for 256-bit key
+PBKDF2-ripemd160 1095690 iterations per second for 256-bit key
+PBKDF2-whirlpool  865161 iterations per second for 256-bit key
+argon2i       9 iterations, 1048576 memory, 4 parallel threads (CPUs) for 256-bit key (requested 2000 ms time)
+argon2id      9 iterations, 1048576 memory, 4 parallel threads (CPUs) for 256-bit key (requested 2000 ms time)
+#     Algorithm |       Key |      Encryption |      Decryption
+        aes-cbc        128b      1392,7 MiB/s      3901,9 MiB/s
+    serpent-cbc        128b       150,8 MiB/s       984,6 MiB/s
+    twofish-cbc        128b       286,4 MiB/s       519,1 MiB/s
+        aes-cbc        256b      1107,1 MiB/s      3751,1 MiB/s
+    serpent-cbc        256b       154,1 MiB/s       983,5 MiB/s
+    twofish-cbc        256b       294,7 MiB/s       514,1 MiB/s
+        aes-xts        256b      3752,9 MiB/s      3758,4 MiB/s
+    serpent-xts        256b       890,8 MiB/s       891,3 MiB/s
+    twofish-xts        256b       483,8 MiB/s       497,7 MiB/s
+        aes-xts        512b      3396,6 MiB/s      3420,8 MiB/s
+    serpent-xts        512b       901,7 MiB/s       886,0 MiB/s
+    twofish-xts        512b       488,9 MiB/s       498,6 MiB/s
+
+```
+
+
 
 И померять aes-adiantum, который должен быть быстрее, малина 4:
 ```

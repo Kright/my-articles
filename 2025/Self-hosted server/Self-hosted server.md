@@ -15,7 +15,7 @@ date: 2025-05-12
 * Amd Ryzen 3700x со стандартным кулером
 * 32x4 = 128 Gb unbuffered памяти с ECC KINGSTON 32GB DDR4 3200MHz ECC KTH-PL432E/32G
 * M.2 SSD samsung evo 512 GB
-* Asus ROG STRIX B550-F GAMING
+* Asus ROG STRIX B550-F GAMING (поддерживает сеть 2.5 гигабита, но пока что второго устройства с такой скоростью у меня нет)
 * nvidia 1060 3 Gb
 * Блок питания - не помню какой, на 750 ватт.
 * жёсткий диск western digital gold на 16 терабайт WDC WD161KRYZ-01 (при включении сервера издаёт привычные звуки из детства)

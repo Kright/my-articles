@@ -54,7 +54,7 @@ sudo hdparm --set-sector-size 4096 --please-destroy-my-drive /dev/sda
 ```
 
 Так что я поменял размер сектора и перезагрузил сервер.
-После перезагрузки всё было ок.
+После перезагрузки всё было ок, но надо будет заново разметить разделы на диске.
 
 https://unix.stackexchange.com/questions/606072/change-logical-sector-size-to-4k
 
@@ -91,3 +91,50 @@ argon2id     10 iterations, 1048576 memory, 4 parallel threads (CPUs) for 256-bi
 aes-cbc устаревший, использовать его не надо.
 
 Получается, что sata-диски можно почти безболезненно шифровать, а вот с nvme наверно не стоит - шифрование будет медленнее, чем возможная скорость чтения или записи данных.
+
+
+Создать новый раздел на диске можно с помощью
+```
+sudo gdisk
+```
+
+Убедиться, что всё выровнено
+```
+sudo parted /dev/sda align-check optimal 1
+```
+
+Создать зашифрованный раздел на sdaX
+```
+sudo cryptsetup luksFormat --type=luks2 \
+--sector-size=4096 \
+-c aes-xts-plain64 \
+-s 512 \
+-h sha512 \
+--pbkdf argon2id \
+--pbkdf-memory 4194304 \
+--pbkdf-parallel 8 \
+--iter-time 5000 \
+--use-urandom \
+/dev/sdaX
+```
+
+подключить в /dev/mapper/data:
+
+```
+sudo cryptsetup open /dev/sda1 data
+```
+
+создать файловую систему:
+
+```
+sudo mkfs.btrfs -d single -m dup -L databtrfs -f /dev/mapper/data
+```
+
+Примонтировать:
+```
+sudo mount -t btrfs -o noatime,nossd,autodefrag,space_cache=v2,compress=zstd:3 /dev/mapper/data /mnt/data/
+```
+
+
+
+

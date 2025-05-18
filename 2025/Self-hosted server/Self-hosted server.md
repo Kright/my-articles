@@ -276,6 +276,7 @@ After=network-online.target nss-lookup.target
 
 [Service]
 Type=simple
+TimeoutStartSec=86400
 ExecStartPre=/bin/bash -c 'while [ ! -e PATH_TO_IMMICH_DIR ]; do sleep 10; done'
 ExecStart=docker compose --project-directory PATH_TO_IMMICH_DIR up
 

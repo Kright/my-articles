@@ -135,6 +135,161 @@ sudo mkfs.btrfs -d single -m dup -L databtrfs -f /dev/mapper/data
 sudo mount -t btrfs -o noatime,nossd,autodefrag,space_cache=v2,compress=zstd:3 /dev/mapper/data /mnt/data/
 ```
 
+## Immich
+
+По-идее для запуска immich достаточно просто докера, но к сожалению он по-умолчанию запускает всё от рута и сохранённые файлы типа фотографий тоже будут от рута. Мне такое не понравилось. Причём если указать пользователя, то оно не работает, и придётся кое-какие дополнительные папки указывать.
+
+В общем я специально под immich сделал такого же пользователя и добавил себя к нему в группу, чтобы от моего пользователя можно было безболезненно бэкапить файлы.
+
+Прикреплю файл целиком:
+```
+#
+# WARNING: To install Immich, follow our guide: https://immich.app/docs/install/docker-compose
+#
+# Make sure to use the docker-compose.yml of the current release:
+#
+# https://github.com/immich-app/immich/releases/latest/download/docker-compose.yml
+#
+# The compose file on main may not be compatible with the latest release.
+
+name: immich
+
+services:
+  immich-server:
+    user: $USER_ID:$GROUP_ID
+    container_name: immich_server
+    image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
+    # extends:
+    #   file: hwaccel.transcoding.yml
+    #   service: cpu # set to one of [nvenc, quicksync, rkmpp, vaapi, vaapi-wsl] for accelerated transcoding
+    volumes:
+      # Do not edit the next line. If you want to change the media storage location on your system, edit the value of UPLOAD_LOCATION in the .env file
+      - ${UPLOAD_LOCATION}:/usr/src/app/upload
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .env
+    ports:
+      - '2283:2283'
+    depends_on:
+      - redis
+      - database
+    restart: always
+    healthcheck:
+      disable: false
+
+  immich-machine-learning:
+    user: $USER_ID:$GROUP_ID
+    container_name: immich_machine_learning
+    # For hardware acceleration, add one of -[armnn, cuda, rocm, openvino, rknn] to the image tag.
+    # Example tag: ${IMMICH_VERSION:-release}-cuda
+    image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION:-release}
+    # extends: # uncomment this section for hardware acceleration - see https://immich.app/docs/features/ml-hardware-acceleration
+    #   file: hwaccel.ml.yml
+    #   service: cpu # set to one of [armnn, cuda, rocm, openvino, openvino-wsl, rknn] for accelerated inference - use the `-wsl` version for WSL2 where applicable
+    volumes:
+      - ${MACHINE_LEARNING_CACHE}:/cache # conflicting documentation for /cache or /.cache, have yet to test this
+      - ${MACHINE_LEARNING_CONFIG}:/.config  
+    env_file:
+      - .env
+    restart: always
+    healthcheck:
+      disable: false
+
+  redis:
+    user: $USER_ID:$GROUP_ID
+    container_name: immich_redis
+    image: docker.io/valkey/valkey:8-bookworm@sha256:42cba146593a5ea9a622002c1b7cba5da7be248650cbb64ecb9c6c33d29794b1
+    healthcheck:
+      test: redis-cli ping || exit 1
+    restart: always
+    volumes:
+      - ${REDIS_DATA}:/data
+
+  database:
+    user: $USER_ID:$GROUP_ID
+    container_name: immich_postgres
+    image: docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:739cdd626151ff1f796dc95a6591b55a714f341c737e27f045019ceabf8e8c52
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_DB: ${DB_DATABASE_NAME}
+      POSTGRES_INITDB_ARGS: '--data-checksums'
+    volumes:
+      # Do not edit the next line. If you want to change the database storage location on your system, edit the value of DB_DATA_LOCATION in the .env file
+      - ${DB_DATA_LOCATION}:/var/lib/postgresql/data
+    healthcheck:
+      test: >-
+        pg_isready --dbname="$${POSTGRES_DB}" --username="$${POSTGRES_USER}" || exit 1; Chksum="$$(psql --dbname="$${POSTGRES_DB}" --username="$${POSTGRES_USER}" --tuples-only --no-align --command='SELECT COALESCE(SUM(checksum_failures), 0) FROM pg_stat_database')"; echo "checksum failure count is $$Chksum"; [ "$$Chksum" = '0' ] || exit 1
+      interval: 5m
+      start_interval: 30s
+      start_period: 5m
+    command: >-
+      postgres -c shared_preload_libraries=vectors.so -c 'search_path="$$user", public, vectors' -c logging_collector=on -c max_wal_size=2GB -c shared_buffers=512MB -c wal_compression=on
+    restart: always
+
+volumes:
+  model-cache:
+
+```
+
+И .env
+
+```
+# You can find documentation for all the supported env variables at https://immich.app/docs/install/environment-variables
+
+# The location where your uploaded files are stored
+UPLOAD_LOCATION=./library
+
+# The location where your database files are stored. Network shares are not supported for the database
+DB_DATA_LOCATION=./postgres
+
+# To set a timezone, uncomment the next line and change Etc/UTC to a TZ identifier from this list: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List
+# TZ=Etc/UTC
+
+# The Immich version to use. You can pin this to a specific version like "v1.71.0"
+IMMICH_VERSION=release
+
+# Connection secret for postgres. You should change it to a random password
+# Please use only the characters `A-Za-z0-9`, without special characters or spaces
+DB_PASSWORD=add-password-here
+
+# The values below this line do not need to be changed
+###################################################################################
+DB_USERNAME=postgres
+DB_DATABASE_NAME=immich
+
+USER_ID=111
+GROUP_ID=112
+
+MACHINE_LEARNING_CACHE=./machine_learning/cache # necessary for non-root use
+MACHINE_LEARNING_CONFIG=./machine_learning/config # necessary for non-root use
+REDIS_DATA=./redis # necessary for non-root use
+```
+
+А ещё я сделал сервис, чтобы запускать/останавливать с помощью systemd (наверняка есть и другие способы, но я сделал так)
+
+```
+[Unit]
+Description="Immich in docker"
+
+After=network-online.target nss-lookup.target
+
+[Service]
+Type=simple
+ExecStartPre=/bin/bash -c 'while [ ! -e PATH_TO_IMMICH_DIR ]; do sleep 10; done'
+ExecStart=docker compose --project-directory PATH_TO_IMMICH_DIR up
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Хитрый шаг - сервис запускается, когда нужная папка будет примонтирована.
+Я сначала узнал что в systemd можно задать путь в специальной юните .path, потом он при запуске запустит сервис .service, а тот выставит .target и я из другого сервиса смогу указать "After=data.target", но это какое-то извращение. При этом повылазит куча нюансов типа того что делать, если папку отмонтировали и примонтировали снова. Я так попробовал, у меня в итоге не заработало и я вместо этого просто сделал костыль с `while [ ! -e PATH_TO_IMMICH_DIR ]; do sleep 10; done`.
+
+Очень странно, что нельзя просто взять и указать, что сервис просто ждёт файла в папке, вместо этого надо фигачить стрёмные приседания типа .path -> .service -> .target -> .service waiting for target
+
+
+
 
 
 

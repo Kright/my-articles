@@ -97,6 +97,8 @@ domain-name=local
 
 ### Автозапуск бота и торрентов
 
+Вообще об этом можно почитать [в документации к qBittorrent](https://github.com/qbittorrent/qBittorrent/wiki/Running-qBittorrent-without-X-server-(WebUI-only,-systemd-service-set-up,-Ubuntu-15.04-or-newer)), но я её нашёл слишком поздно :)
+
 Ниже будет упрощённый пересказ того, что я узнал по этой ссылке: [https://obu4alka.ru/ustanovka-qbittorrent-na-ubuntu-server-20-04-lts.html](https://obu4alka.ru/ustanovka-qbittorrent-na-ubuntu-server-20-04-lts.html) Ещё можно посмотреть тут: [https://www.shubhamdipt.com/blog/how-to-create-a-systemd-service-in-linux/](https://www.shubhamdipt.com/blog/how-to-create-a-systemd-service-in-linux/)
 
 Кстати, qbittorrent в браузере выглядит практически так же, как и приложение. И ещё он качает/раздаёт круглые сутки, так что можно оживить полузабытые раздачи.

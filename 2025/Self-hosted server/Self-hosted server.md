@@ -307,12 +307,32 @@ WantedBy=multi-user.target
 
 В первый раз надо посмотреть в ```systemctl status qbittorrent-nox``` - там qbittorrent напишет временный пароль для входа.
 
+## Jellyfin
 
+медиасервер, к которому можно подключаться с телефона/пк и смотреть фильмы или слушать музыку.
 
+Для входа через браузер по-умолчанию порт 8096
 
+Я написал свой docker-compose.yml.
+По-умолчанию предполагается, что jellyfin ждёт медиайфайлы в :/media, но я ему туда хитро смонтировал ещё пару директорий - для музыки и фильмов.
 
+```
+name: jellyfin
 
-
-
-
-
+services:
+  jellyfin:
+    container_name: jellyfin_server
+    image: jellyfin/jellyfin:latest
+    network_mode: host
+    restart: always
+    volumes:
+      - /mnt/data/services/jellyfin/config:/config
+      - /mnt/data/services/jellyfin/cache:/cache
+      - /mnt/data/services/jellyfin/media:/media
+      - type: bind
+        source: /mnt/data/safedata/music
+        target: /media/music
+      - type: bind
+        source: /mnt/data/films
+        target: /media/films
+```

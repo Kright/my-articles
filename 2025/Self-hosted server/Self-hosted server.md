@@ -66,7 +66,7 @@ sudo hdparm --set-sector-size 4096 --please-destroy-my-drive /dev/sda
 
 https://unix.stackexchange.com/questions/606072/change-logical-sector-size-to-4k
 
-А вообще очень красиво получается - оперативная память выделяется страницами по 4кб и блоками в 4кб пишется на диск. 
+А вообще очень красиво получается - оперативная память выделяется страницами по 4кб и блоками в 4кб пишется на диск.
 
 ### cryptsetup benchmark
 
@@ -142,6 +142,58 @@ sudo mkfs.btrfs -d single -m dup -L databtrfs -f /dev/mapper/data
 ```
 sudo mount -t btrfs -o noatime,nossd,autodefrag,space_cache=v2,compress=zstd:3 /dev/mapper/data /mnt/data/
 ```
+
+## BTRFS
+
+Я решил использовать btrfs.
+
+Интересная особенность - можно сделать снапшоты. Причём снапшот создаётся почти мгновенно и по сути это такая-же папка с файлами. Потому что btrfs это copy-on-write файловая система и если ничего не происходит, то снапшоты будут ссылаться на те же самые файлы.
+
+Ещё из прикольного - есть сжатие файлов, и если это какие-нибудь однообразные данные типа csv, json или текста, то файловая система сама всё сделает, нет смысла укладывать их в архивы.
+
+### Посмотреть список subvolume
+```shell
+btrfs subvolume list /
+```
+
+### Создать или удалить
+```
+btrfs subvolume create /mnt/subvolume_name
+btrfs subvolume delete /mnt/subvolume_name
+```
+
+### Сделать read-only snaphot (опция -r)
+```
+btrfs subvolume snapshot -r /path/to/subvol /path/to/snapshot
+```
+
+### Отправить снапшот на другой диск:
+
+```
+sudo btrfs send ./snapshots/2025-07-29 | sudo btrfs receive /mnt/backup/snapshots
+```
+
+### Отправить разницу между снапшотами (родительский -p):
+```
+sudo btrfs send -p ./snapshots/2025-07-29 ./snapshots/2025-07-30 | sudo btrfs receive /mnt/backup
+```
+
+### Что забавно, снапшот можно записать просто в файл (например, в ext4)
+```
+sudo btrfs send ./snapshots/2025-07-29 > /mnt/backup/2025-07-09.btrfs
+```
+
+Поанализировать что насжималось:
+```
+compsize /mnt/backup
+```
+
+
+Больше примеров можно найти тут: [https://habr.com/ru/companies/veeam/articles/458250/](https://habr.com/ru/companies/veeam/articles/458250/)
+
+Что важно - можно внутри subvolume хранить папки с другими subvolume, но при создании снапшота они игнорируются и там будут пустые папки. Я для себя сделал, что у меня в основном subvolume в папке snapshots лежат его собственные снапшоты за каждый день, и если мне вдруг понадобится случайно удалённый файл, то я его там найду.
+
+Ещё интересной опцией является raid1 - тогда для btrfs будет нужно несколько дисков, и любой кусок данных будет храниться на двух из них. Но я решил пока не экспериментировать, потому что диски у меня разного размера.
 
 ## Immich
 

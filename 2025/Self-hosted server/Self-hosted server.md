@@ -64,7 +64,7 @@ sudo hdparm --set-sector-size 4096 --please-destroy-my-drive /dev/sda
 Так что я поменял размер сектора и перезагрузил сервер.
 После перезагрузки всё было ок, но надо будет заново разметить разделы на диске.
 
-https://unix.stackexchange.com/questions/606072/change-logical-sector-size-to-4k
+[https://unix.stackexchange.com/questions/606072/change-logical-sector-size-to-4k](https://unix.stackexchange.com/questions/606072/change-logical-sector-size-to-4k)
 
 А вообще очень красиво получается - оперативная память выделяется страницами по 4кб и блоками в 4кб пишется на диск.
 
@@ -143,7 +143,7 @@ sudo mkfs.btrfs -d single -m dup -L databtrfs -f /dev/mapper/data
 sudo mount -t btrfs -o noatime,nossd,autodefrag,space_cache=v2,compress=zstd:3 /dev/mapper/data /mnt/data/
 ```
 
-## BTRFS
+## BTRFS и бэкапы
 
 Я решил использовать btrfs.
 
@@ -194,6 +194,65 @@ compsize /mnt/backup
 Что важно - можно внутри subvolume хранить папки с другими subvolume, но при создании снапшота они игнорируются и там будут пустые папки. Я для себя сделал, что у меня в основном subvolume в папке snapshots лежат его собственные снапшоты за каждый день, и если мне вдруг понадобится случайно удалённый файл, то я его там найду.
 
 Ещё интересной опцией является raid1 - тогда для btrfs будет нужно несколько дисков, и любой кусок данных будет храниться на двух из них. Но я решил пока не экспериментировать, потому что диски у меня разного размера.
+
+Чисто для истории мой скрипт для бэкапа (запускаю от рута)
+
+```Shell
+readonly DATETIME="$(date '+%Y-%m-%d_%H:%M:%S')"
+readonly DATE="$(date '+%Y-%m-%d')"
+readonly LOG_FILE="/mnt/data/backup/backupToSecondDisk/${DATETIME}.txt"
+readonly SNAPSHOT_PATH="/mnt/data/snapshots/$DATE"
+
+echo "started at $(date '+%Y-%m-%d_%H:%M:%S')" >> $LOG_FILE
+
+
+systemctl stop immich.service
+echo "immich stopped at $(date '+%Y-%m-%d_%H:%M:%S')" >> $LOG_FILE
+
+docker compose -f /mnt/data/services/immich/docker-compose.yml pull >> $LOG_FILE
+echo "immich updated at $(date '+%Y-%m-%d_%H:%M:%S')" >> $LOG_FILE
+
+if [ ! -d "$SNAPSHOT_PATH" ]; then
+    btrfs subvolume snapshot -r /mnt/data "$SNAPSHOT_PATH"
+    echo "make snapshot at $(date '+%Y-%m-%d_%H:%M:%S')" >> $LOG_FILE
+else
+    echo "snapshot $SNAPSHOT_PATH already exists, skip" >> $LOG_FILE
+fi
+
+
+systemctl start immich.service
+echo "immich started at $(date '+%Y-%m-%d_%H:%M:%S')" >> $LOG_FILE
+
+python3 /mnt/data/backup/transferSnapshot.py >> $LOG_FILE 2>&1
+echo "transfer snapshot at $(date '+%Y-%m-%d_%H:%M:%S')" >> $LOG_FILE
+
+df >> $LOG_FILE
+
+echo "finished at $(date '+%Y-%m-%d_%H:%M:%S')" >> $LOG_FILE
+```
+
+И скрипт для переноса данных на Питоне, потому что я не сильно уверенно себя чувствую с shell скриптами
+```Python
+import os
+import shutil
+import subprocess
+
+orig_dir = "/mnt/data/snapshots"
+backups_dir = "/mnt/backup/snapshots"
+
+latest_name = f"{sorted(os.listdir(orig_dir))[-1]}"
+prev_name = f"{sorted(os.listdir(backups_dir))[-1]}"
+
+if latest_name == prev_name:
+    print("backup on second disk is already exists")
+else:
+    cmd = f"btrfs send -p {orig_dir}/{prev_name} {orig_dir}/{latest_name} | btrfs receive {backups_dir}"
+    print(f"exec: {cmd}")
+    result = subprocess.run(cmd, shell=True, capture_output=True, text=True, check=False)
+    print(result.stdout)
+    print(result.stderr)
+    print("exec finished")
+```
 
 ## Immich
 
@@ -393,7 +452,7 @@ services:
 
 Кажется, самая беспроблемная установка:
 
-https://docs.gitea.com/installation/install-with-docker
+[https://docs.gitea.com/installation/install-with-docker](https://docs.gitea.com/installation/install-with-docker)
 
 дефолтный порт для веб-доступа: 3000
 

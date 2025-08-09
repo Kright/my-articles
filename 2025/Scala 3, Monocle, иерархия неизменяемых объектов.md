@@ -53,7 +53,7 @@ val car = CarSpec(
 
 Сейчас IntelliJ IDEA с автодополнением не справляется, но можно указать типы руками. И в примерах я явно пишу типы, чтобы было более понятно что там происходит.
 
-```
+```Scala
 import monocle.AppliedLens
 import monocle.syntax.all.*
 

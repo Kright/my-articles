@@ -4,7 +4,7 @@ author: Kright
 date: 2025-08-09
 ---
 
-TL;DR: Есть библиотека Monocle ([документация](https://www.optics.dev/Monocle/docs/optics), [гитхаб](https://github.com/optics-dev/Monocle)) и её помощью удобно делать копии сложных неизменяемых case-классов.
+TL;DR: Есть библиотека Monocle ([документация](https://www.optics.dev/Monocle/docs/optics), [гитхаб](https://github.com/optics-dev/Monocle)) и c её помощью удобно делать копии сложных неизменяемых case-классов.
 
 Если классы изменяемые, то можно и без библиотеки написать так:
 ```Scala

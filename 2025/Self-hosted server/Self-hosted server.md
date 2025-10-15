@@ -459,3 +459,83 @@ services:
 Можно сделать режим зеркала для репозитория снаружи либо наоборот режим, когда изменения из gitea автоматически пушатся на гитхаб или ещё куда.
 
 Я пока не придумал как это использовать. Возможно, будет удобно там создавать приватные репозитории или миррорить какие-то большие репозитории, чтобы их можно было быстро скачать из локального зеркала.
+
+## reverse proxy
+
+В простейшем случае можно запустить руками:
+
+```
+ssh -N -R 0.0.0.0:1080:localhost:1080 user@server // reverse proxy
+```
+важный момент - надо написать 0.0.0.0, иначе туннель не будет доступен для других устройств в сети (а мне было надо)
+
+```
+ssh -N -D 1080 localhost // socks 5 proxy server
+```
+
+Например, можно иметь два сервера - один доступный по ssh через port forwarding и один вообще нет, и тогда вот это подключение сделает туннель между ними.
+
+Проверить что работает:
+```
+curl --socks5 localhost:1080 ifconfig.me
+```
+
+Если нужно постоянно, можно это автоматизировать.
+Я попытался использовать Dante, потратил где-то час или два на настройку, крайне криво и неудобно получилось, выглядит так что лучше бы просто shell команду в systemd прописал.
+
+Итак:
+
+danted conf
+```
+logoutput: syslog
+internal: 0.0.0.0 port = 1080
+external: enp6s0
+socksmethod: none
+
+user.privileged: proxy
+user.unprivileged: nobody
+user.libwrap: nobody
+
+client pass {
+       from: 0.0.0.0/0 to: 0.0.0.0/0
+}
+
+socks pass {
+       from: 0.0.0.0/0 to: 0.0.0.0/0
+}
+```
+
+А так же донастройка демона, иначе после загрузки он не работает.
+```
+sudo systemctl edit danted.service
+```
+И надо добавить, чтобы он ждал сеть:
+```
+[Unit]
+After=network-online.target
+Wants=network-online.target
+```
+
+Потом включить
+```
+sudo systemctl start danted.service
+sudo systemctl status danted.service
+sudo systemctl enable danted.service
+```
+
+настройка туннеля:
+
+```
+[Unit]
+Description=AutoSSH Reverse Tunnel
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/autossh -o "ServerAliveInterval 60" -o "ServerAliveCountMax 3" -N -R 0.0.0.0:1080:localhost:1080 user@server
+Restart=always
+RestartSec=10
+User=TODOWRITEUSER!!
+
+[Install]
+WantedBy=multi-user.target
+```

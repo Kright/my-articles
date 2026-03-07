@@ -831,9 +831,10 @@ $$E = \dfrac{B_b ∨ I_b[B_b]}{2}$$
 
 Видео на ютубе:
 
-1. [https://www.youtube.com/watch?v=2AKt6adG_OI](https://www.youtube.com/watch?v=2AKt6adG_OI)
-2. [https://www.youtube.com/watch?v=0i3ocLhbxJ4](https://www.youtube.com/watch?v=0i3ocLhbxJ4)
-3. [SIBGRAPI2021 про силы, ускорения, момент инерции и т.п.](https://www.youtube.com/watch?v=LQyKb0Flm3w&list=PLsSPBzvBkYjxrsTOr0KLDilkZaw7UE2Vc&index=3)
+1. Видео, которое я сам попробовал сделать: [https://www.youtube.com/watch?v=GCBDeI5GL3k](https://www.youtube.com/watch?v=GCBDeI5GL3k)
+2. [https://www.youtube.com/watch?v=2AKt6adG_OI](https://www.youtube.com/watch?v=2AKt6adG_OI)
+3. [https://www.youtube.com/watch?v=0i3ocLhbxJ4](https://www.youtube.com/watch?v=0i3ocLhbxJ4)
+4. [SIBGRAPI2021 про силы, ускорения, момент инерции и т.п.](https://www.youtube.com/watch?v=LQyKb0Flm3w&list=PLsSPBzvBkYjxrsTOr0KLDilkZaw7UE2Vc&index=3)
 
 Довольно простая книжка про основы: [Geometric Algebra Primer](http://www.jaapsuter.com/geometric-algebra.pdf)
 

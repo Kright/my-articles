@@ -15,3 +15,7 @@
 ### UE
 
 [https://dev.epicgames.com/community/learning/paths/OR/welcome-to-game-development](https://dev.epicgames.com/community/learning/paths/OR/welcome-to-game-development)
+
+### C++
+
+[dalerank: Архитектурные компромиссы в разработке игр](https://habr.com/ru/articles/1037740/)

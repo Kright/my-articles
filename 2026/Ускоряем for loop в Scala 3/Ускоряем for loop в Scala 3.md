@@ -71,7 +71,7 @@ final class FastRangeWithStart(val start: Int,
 
 Код умножения:
 
-```
+```Scala
 def multiply(a: Matrix4x4, b: Matrix4x4, result: Matrix4x4): Unit = {
   for (row <- 0 to 3) {
     for (column <- 0 to 3) {

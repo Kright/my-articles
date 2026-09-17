@@ -126,7 +126,7 @@ The JVM has several arenas:
 [info] Matrix4x4Benchmark.multiply                    avgt   40  519.939 ± 13.276  ns/op
 ```
 
-* The fastest way to multiply 4x4 matrices is with code in the jvm itself - 18 nanoseconds.
+* The fastest way to multiply 4x4 matrices is with code in the JVM itself - 18 nanoseconds.
 * If you allocate the arena and memory segments once, and then reuse them when calling the native function - the time is a bit more, 27 nanoseconds. That is, calling a C function is by itself cheap and fast.
 * If you create a new arena and allocate new memory segments on every call, performance drops almost 4x, you get 105 nanoseconds - a lot, but maybe for long-running functions it's not critical.
 * If you use inefficient iteration in Scala `for (row <- 0 to 3)`, JIT compilation won't manage to optimize the code and the multiplication will take a whole 520 ns.

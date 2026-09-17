@@ -4,11 +4,11 @@ author: Kright
 date: 2025-06-17
 ---
 
-[Code on github](https://github.com/Kright/ArrayView)
+[Code on GitHub](https://github.com/Kright/ArrayView)
 
 At first I wanted to write a class for the 2d case, but while improving the code I suddenly realized that it's easy to generalize to 3d and 4d, and you get a simple, efficient and universal library.
 
-The design is inspired by numpy and by some of the features of Scala 3.
+The design is inspired by NumPy and by some of the features of Scala 3.
 
 Below I'll explain why I made the choices I made.
 
@@ -39,7 +39,7 @@ trait ArrayView2d[T]:
 
 I.e., I store the sizes along the axes, the position of the "zero" element relative to the start of the array, and how much the position in the array changes when one index or another is incremented.
 
-I picked this idea up from numpy, and it's a very interesting way to make all sorts of "representations" of the same data.
+I picked this idea up from NumPy, and it's a very interesting way to make all sorts of "representations" of the same data.
 
 1. Take a part of the array: adjust `offset`, `shape0` and `shape1`
 2. Transpose the array: swap `stride0` and `stride1`, and also `shape0` and `shape1`
@@ -71,13 +71,13 @@ And this is where the inline modifier saves us - for `ArrayView[Double]` the com
 val element: Double = arrayView2d.data(arrayView2d.getIndex(i0, i1))
 ```
 
-Maybe in some cases escape analysis and JVM-level inlining will kick in, and java will also put the Shape object next to the ArrayView and it'll work fast - but instead I decided to go with a design that's as simple and as close to the hardware as possible.
+Maybe in some cases escape analysis and JVM-level inlining will kick in, and Java will also put the Shape object next to the ArrayView and it'll work fast - but instead I decided to go with a design that's as simple and as close to the hardware as possible.
 
 I measured the performance in JMH - it's close to the speed of code with the indices substituted by hand. And faster than an array of arrays. I'd call that a success!
 
 # transparent inline and context functions
 
-If you remember, in numpy the `arr[...]` method is very flexible and can take anything. For example `arr[0, 1:-1, ::-1]` - here we take a fixed first index, and leave the second and third axes as axes, we just drop the edge values along the second axis and reverse the order along the third one. So the dimensionality of the result depends on the types of the arguments - each can be either a number or a range.
+If you remember, in NumPy the `arr[...]` method is very flexible and can take anything. For example `arr[0, 1:-1, ::-1]` - here we take a fixed first index, and leave the second and third axes as axes, we just drop the edge values along the second axis and reverse the order along the third one. So the dimensionality of the result depends on the types of the arguments - each can be either a number or a range.
 
 And there's a tricky bit - a negative index means an offset "from the end" of the array. But if you happen to make a mistake and code like `arr[i:j]` accidentally ends up with negative `i` and `j` - good luck debugging.
 
@@ -106,7 +106,7 @@ In Scala you can do something even cooler with `transparent inline`:
 
 So, each argument also comes with a context, and that context carries size - the size along the axis.
 
-Now that numpy example can be written like this:
+Now that NumPy example can be written like this:
 
 ```Scala
 val arrayView2d = arrayView3d.view(0, 1 until (size - 1), all.reversed)
@@ -122,4 +122,4 @@ I didn't add matrix operations like arithmetic to the library, because that's a 
 
 Instead I focused on getting a simple and efficient library for working with multidimensional data of any type.
 
-The library is fast, simple, has no dependencies and is written in pure Scala (supports scala js). [Use it and enjoy](https://github.com/Kright/ArrayView)
+The library is fast, simple, has no dependencies and is written in pure Scala (supports Scala.js). [Use it and enjoy](https://github.com/Kright/ArrayView)

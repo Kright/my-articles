@@ -210,3 +210,36 @@
 | клотоида | clothoid |
 | база руля, коробка (периферия руля) | wheel base, shifter |
 | выпрямляющее усилие на руле | self-aligning force |
+
+## Геометрическая алгебра (PGA)
+
+Статья «Plane-based геометрическая алгебра для описания движения тел» -> "Plane-based geometric algebra for rigid body motion".
+
+| Оригинал | Перевод | Примечание |
+|---|---|---|
+| локальная СО / глобальная СО | body frame / world frame | совпадает с индексами b и w в формулах |
+| внешнее / внутреннее / геометрическое произведение | outer / inner / geometric product | |
+| анти-произведение | anti-product | |
+| сжатие (левое / правое) | contraction (left / right) | |
+| грейд | grade | |
+| сэндвич, sandwich product | sandwich, sandwich product | |
+| reverse | reverse | как есть, с маленькой буквы |
+| дуальность, дуальный | duality, dual | |
+| дополнение слева / справа | left / right complement | |
+| псевдоскаляр | pseudoscalar | |
+| тривектор | trivector | |
+| мотор, транслятор, ротор | motor, translator, rotor | |
+| кватернион (про роторную часть мотора) | quaternion | авторское слово сохраняется |
+| идеальная точка | ideal point | |
+| форк | forque | как есть |
+| импульс | momentum | не moment |
+| момент силы / момент инерции | torque / moment of inertia | |
+| оператор инерции | inertia operator | |
+| уравнения движения | equations of motion | |
+| диффур | the diff eq | разговорно, как в оригинале |
+| коммутатор | commutator | |
+| 2д, 3д | 2d, 3d | строчные, как в других переводах |
+| ALARM! | ALARM! | как есть |
+| векторочки, буковка e | little basis vectors, the letter e | уменьшительность где звучит, не везде |
+| плюсик, кинжальчик (про †) | a little plus sign, a little dagger | |
+| Хочешь разобраться - сделай сам | Want to understand it - build it yourself | |
